@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30104.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataSever", "Ikar\DataSever.csproj", "{5FC2591E-08FE-4872-B4CD-73733D4DA817}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataServer", "Ikar\DataServer.csproj", "{5FC2591E-08FE-4872-B4CD-73733D4DA817}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataClient", "DataClient\DataClient.csproj", "{99E3368F-ACB7-4D99-8AC1-B00763D44941}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataClient", "DataClient\DataClient.csproj", "{99E3368F-ACB7-4D99-8AC1-B00763D44941}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
