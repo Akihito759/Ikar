@@ -16,8 +16,9 @@ namespace DataClient
         }
 
 
-        public  void Connect()
+        public  void Connect(string url)
         {
+            HubUrl = url + "dataHub";
             logger.Log("starting connection");
             connection = new HubConnectionBuilder()
                  .WithUrl(HubUrl)
@@ -25,8 +26,6 @@ namespace DataClient
             mapMethods(connection);
             connection.StartAsync().Wait(); 
                 Ping();
-                SendData("mama");
-                SendData("mama");
         }
 
         private void mapMethods(HubConnection connection)
@@ -37,7 +36,7 @@ namespace DataClient
         public async void SendData(string json)
         {
             logger.ClinetLog("Sending Data");
-            await connection.SendAsync("DataRecived", "mama");
+            await connection.SendAsync("DataRecived", json);
         }
 
 

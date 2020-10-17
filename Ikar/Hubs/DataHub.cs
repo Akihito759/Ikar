@@ -1,5 +1,7 @@
-﻿using DataSever.Services;
+﻿using DataClient.Models;
+using DataServer.Services;
 using Microsoft.AspNetCore.SignalR;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +12,11 @@ namespace DataSever.Hubs
 {
     public class DataHub: Hub
     {
-        private StupidCasheService cache;
+        private RecordingService recordingService;
 
-        public DataHub(StupidCasheService service)
+        public DataHub(RecordingService recordingService)
         {
-            cache = service;
+            this.recordingService = recordingService;
         }
 
         public Task SendMessage(string user, string message)
@@ -24,12 +26,22 @@ namespace DataSever.Hubs
 
         public Task CommunicationTest(string message)
         {
-            return Clients.Caller.SendAsync("Message", message.ToLower() == "ping" ? "pong" : "Don't get ping message");
+            bool isConnected = message.ToLower() == "ping";
+            recordingService.SetDeviceConnectionStatus(isConnected);
+            return Clients.Caller.SendAsync("Message", isConnected ? "pong" : "Don't get ping message");
         }
 
-        public void DataRecived(string json)
+        public Task DataRecived(string json)
         {
-            cache.dataContainer.Add(json);
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+            if (recordingService.IsRecording)
+            {
+                recordingService.Record(JsonConvert.DeserializeObject<GridEyeDataModel>(json));
+                watch.Stop();
+                var x = watch.ElapsedMilliseconds;
+            }
+            Clients.Others.SendAsync("Message", json);
+            return Clients.Caller.SendAsync("Message", "Recived Data");
         }
     }
 }

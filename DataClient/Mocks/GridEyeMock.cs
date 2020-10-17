@@ -3,6 +3,7 @@ using DataClient.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace DataClient.Mocks
 {
@@ -13,17 +14,20 @@ namespace DataClient.Mocks
             return new GridEyeDataModel
             {
                 TimeStamp = DateTime.Now,
-                Temperature = GenerateRandomTemperature()
+                Temperature = GenerateRandomTemperature(),
+                ThermistorTemperature = GetRandomNumber(20, 34)
             };
         }
 
         private double[] GenerateRandomTemperature()
         {
+            
             var tempArray = new double[64];
             for (int i = 0; i < tempArray.Length; i++)
             {
-                tempArray[i] = GetRandomNumber(0, 40);
+                tempArray[i] = GetRandomNumber(20, 34);
             }
+            Thread.Sleep(49);
             return tempArray;
         }
 

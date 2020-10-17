@@ -1,6 +1,13 @@
-<body>
-  <app-nav-menu></app-nav-menu>
-  <div class="container">
-    <router-outlet></router-outlet>
+<div class="container">
+  <app-data-form></app-data-form>
+  
+  <div>
+    <div>
+      <span> Thermistor temperature:  {{(dataFlow$ | async)?.ThermistorTemperature.toFixed(2)}} *C</span>
+    </div>
+    <canvas #canvas id="canvasa-screen" width="400" height="400" style="border:1px solid #d3d3d3;"></canvas>
+    <canvas #scale width="20" height="433"></canvas>
   </div>
-</body>
+</div>
+
+

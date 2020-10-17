@@ -1,5 +1,6 @@
+using DataClient.Models;
+using DataServer.Services;
 using DataSever.Hubs;
-using DataSever.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -22,14 +23,24 @@ namespace Ikar
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var stupidService = new StupidCasheService();
             services.AddControllersWithViews();
             services.AddSignalR();
-            services.AddSingleton(stupidService);
+            services.AddSingleton<CacheService<GridEyeDataModel>>();
+            services.AddSingleton<RecordingService>();
+            services.AddTransient<SavingService>();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
+            });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder => builder
+                .WithOrigins("http://localhost:4200","http://192.168.1.119:4200","https://192.168.1.119")
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
             });
         }
 
@@ -55,6 +66,9 @@ namespace Ikar
             }
 
             app.UseRouting();
+
+            app.UseCors("CorsPolicy");
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<DataHub>("/dataHub");
@@ -67,7 +81,6 @@ namespace Ikar
                     pattern: "{controller}/{action=Index}/{id?}");
 
             });
-
             app.UseSpa(spa =>
             {
                 // To learn more about options for serving an Angular SPA from ASP.NET Core,

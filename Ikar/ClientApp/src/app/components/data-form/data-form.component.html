@@ -1,0 +1,41 @@
+<mat-card>
+  <form *ngIf="!isLoading" [formGroup]="data" (ngSubmit)="onSubmit()">
+    <div>
+      <mat-form-field>
+        <mat-label>Session Id</mat-label>
+        <input matInput type="number" step="1" formControlName="sessionId">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Temperature</mat-label>
+        <input matInput type="number" formControlName="temperature">
+      </mat-form-field>
+    </div>
+    <div>
+      <label>Fall: </label>
+      <mat-radio-group formControlName="isFall">
+        <mat-radio-button value="true">Yes</mat-radio-button>
+        <mat-radio-button value="false">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div>
+      <label>Lie: </label>
+      <mat-radio-group formControlName="isLie">
+        <mat-radio-button value="true">Yes</mat-radio-button>
+        <mat-radio-button value="false">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div>
+      <label>FullCloth: </label>
+      <mat-radio-group formControlName="isFullCloth">
+        <mat-radio-button value="true">Yes</mat-radio-button>
+        <mat-radio-button value="false">No</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div>
+      <button mat-raised-button type="submit" color="primary">Start recording</button>
+    </div>
+  </form>
+  <div *ngIf="isLoading">
+    {{counter$ | async}}
+  </div>
+</mat-card>

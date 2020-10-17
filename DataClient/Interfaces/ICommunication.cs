@@ -7,7 +7,7 @@ namespace DataClient.Interfaces
     public interface ICommunication
     {
         void SendData(string json);
-        void Connect();
+        void Connect(string url);
         void Ping();
     }
 }
