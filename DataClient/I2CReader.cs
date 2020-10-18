@@ -29,9 +29,11 @@ namespace DataClient
         private int i2cBushandle;
 
         private byte[] gridEyeData = new byte[256];
+        private ILogger logger;
 
-        public I2CReader()
+        public I2CReader(ILogger log)
         {
+            this.logger = log;
             OpenConnection();
         }
 
@@ -68,6 +70,7 @@ namespace DataClient
 
         public double GetThermistorTemperature()
         {
+            logger.Log(gridEyeData[0x0E].ToString() + " " + gridEyeData[0x0F].ToString());
             return BitConverter.ToInt16(gridEyeData, 0x0E) * 0.0625;
         }
 

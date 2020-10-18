@@ -19,7 +19,7 @@ namespace DataClient
         public  void Connect(string url)
         {
             HubUrl = url + "dataHub";
-            logger.Log("starting connection");
+            logger.Log("starting connection:" + url);
             connection = new HubConnectionBuilder()
                  .WithUrl(HubUrl)
                  .Build();

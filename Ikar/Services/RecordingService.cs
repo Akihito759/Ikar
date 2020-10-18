@@ -23,6 +23,8 @@ namespace DataServer.Services
         public bool IsRecording { get; private set; }
         public bool IsDeviceConnected { get; private set; }
 
+        public int MaxFrames { get; private set; }
+
         private Stopwatch stopwatch = new Stopwatch();
         private CacheService<GridEyeDataModel> cacheService;
 
@@ -39,19 +41,23 @@ namespace DataServer.Services
             }
             cacheService.Clear();
             IsRecording = true;
-            stopwatch.Restart();
-            Task.Delay(1000 * seconds).ContinueWith(x => StopRecording()).Wait();
+            MaxFrames = 10 * seconds;
+            while (IsRecording) { }
         }
 
         public void Record(GridEyeDataModel data)
         {
+            if(cacheService.Count() >= MaxFrames)
+            {
+                IsRecording = false;
+                return;
+            }
             this.cacheService.Add(data);
         }
 
         public void StopRecording()
         {
             IsRecording = false;
-            stopwatch.Stop();
         }
 
         public void SetDeviceConnectionStatus(bool isDeviceConnected)

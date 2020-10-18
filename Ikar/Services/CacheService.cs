@@ -16,6 +16,11 @@ namespace DataServer.Services
             cachedata.Add(data);
         }
 
+        public long Count()
+        {
+            return cachedata.Count;
+        }
+
         public List<T> Get()
         {
             return cachedata;

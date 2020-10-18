@@ -17,8 +17,8 @@ namespace DataClient
         {
             var container = new UnityContainer();
             container.RegisterType<ICommunication,SignalRClient >();
-            container.RegisterType<IGridEyeReader, GridEyeMock>();
-            //container.RegisterType<IGridEyeReader, I2CReader>();
+            container.RegisterType<IGridEyeReader, GridEyeMock>("Mock");
+            container.RegisterType<IGridEyeReader, I2CReader>();
             container.RegisterType<ILogger, ConsoleLogger>();
 
 

@@ -15,9 +15,6 @@ export class DataFormComponent implements OnInit {
   isLoading = false;
   counterSource = new Subject<number>();
 
-  private roomTemperature;
-  private sessionId;
-
   counter$ = this.counterSource.asObservable();
   data = new FormGroup({
     isFall: new FormControl(''),
@@ -40,9 +37,6 @@ export class DataFormComponent implements OnInit {
     this.count();
     this.http.playAndSave(dto).subscribe(() => {
       this.isLoading = false;
-      this.saveValues();
-      this.data.reset();
-      this.setSavedValues();
     });
   }
 
@@ -50,22 +44,6 @@ export class DataFormComponent implements OnInit {
     let seconds = 10;
     timer(0, 1000).pipe(take(seconds)).subscribe(x =>
       this.counterSource.next(seconds--));
-  }
-
-  saveValues(){
-    let value = this.data.value;
-    this.roomTemperature = value['temperature'];
-    this.sessionId = value['sessionId'];
-  }
-
-  setSavedValues(){
-    this.data.setValue({
-      temperature: this.roomTemperature,
-      sessionId: this.sessionId,
-      isFall: '',
-      isLie: '',
-      isFullCloth:'',
-    })
   }
 
   

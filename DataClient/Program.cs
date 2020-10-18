@@ -3,6 +3,7 @@ using DataClient.Interfaces;
 using System;
 using System.Threading.Tasks;
 using System.Text.Json;
+using System.Linq;
 
 namespace DataClient
 {
@@ -12,28 +13,36 @@ namespace DataClient
         {
             var unity = IoCContainer.CrateContainer();
             var communication = unity.container.Resolve<ICommunication>();
-            communication.Connect("https://localhost:5001/");
-            //communication.Connect("http://192.168.1.119:5000/");
-            var reader = unity.container.Resolve<IGridEyeReader>();
+            var logger = unity.container.Resolve<ILogger>();
+            IGridEyeReader reader;
+            try
+            {
+                communication.Connect("https://localhost:5001/");
+                reader = unity.container.Resolve<IGridEyeReader>("Mock");
+            }
+            catch
+            {
+                communication.Connect("http://192.168.1.119:5000/");
+                reader = unity.container.Resolve<IGridEyeReader>();
+            }
+
             var lastData = new double[64];
+            var watch = System.Diagnostics.Stopwatch.StartNew();
             while (true)
             {
-                var watch = System.Diagnostics.Stopwatch.StartNew();
-                // the code that you want to measure comes here
-                
-                
                 var currentState = reader.GetCurrentState();
                 
                 
-                if (!AreArraysSame(lastData, currentState.Temperature))
+                if (!AreArraysSame(lastData, currentState.Temperature) && currentState.Temperature.Sum() != 0)
                 {
                     
                     communication.SendData(JsonSerializer.Serialize(currentState));
                     watch.Stop();
-                    var elapsedMs = watch.ElapsedMilliseconds;
+                    logger.Log("time:"+watch.ElapsedMilliseconds.ToString()+"ms");
+                    watch.Restart();
                 }
                 
-                lastData = (double[]) reader.GetCurrentState().Temperature.Clone();
+                lastData = (double[]) currentState.Temperature.Clone();
 
             }
         }
