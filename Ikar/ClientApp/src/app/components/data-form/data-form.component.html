@@ -5,7 +5,7 @@
         <mat-label>Session Id</mat-label>
         <input matInput type="number" step="1" formControlName="sessionId">
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field *ngIf="false">
         <mat-label>Temperature</mat-label>
         <input matInput type="number" formControlName="temperature">
       </mat-form-field>
@@ -13,22 +13,22 @@
     <div>
       <label>Fall: </label>
       <mat-radio-group formControlName="isFall">
-        <mat-radio-button value="true">Yes</mat-radio-button>
-        <mat-radio-button value="false">No</mat-radio-button>
+        <mat-radio-button [value]="true">Yes</mat-radio-button>
+        <mat-radio-button [value]="false">No</mat-radio-button>
       </mat-radio-group>
     </div>
     <div>
       <label>Lie: </label>
       <mat-radio-group formControlName="isLie">
-        <mat-radio-button value="true">Yes</mat-radio-button>
-        <mat-radio-button value="false">No</mat-radio-button>
+        <mat-radio-button [value]="true">Yes</mat-radio-button>
+        <mat-radio-button [value]="false">No</mat-radio-button>
       </mat-radio-group>
     </div>
     <div>
       <label>FullCloth: </label>
       <mat-radio-group formControlName="isFullCloth">
-        <mat-radio-button value="true">Yes</mat-radio-button>
-        <mat-radio-button value="false">No</mat-radio-button>
+        <mat-radio-button [value]="true">Yes</mat-radio-button>
+        <mat-radio-button [value]="false">No</mat-radio-button>
       </mat-radio-group>
     </div>
     <div>
@@ -38,4 +38,6 @@
   <div *ngIf="isLoading">
     {{counter$ | async}}
   </div>
+  Counter: {{privateCounter}}
+  <button mat-raised-button (click)="onReset()" color="warn">Reset counter</button>
 </mat-card>

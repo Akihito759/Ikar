@@ -31,8 +31,6 @@ namespace DataClient
             while (true)
             {
                 var currentState = reader.GetCurrentState();
-                
-                
                 if (!AreArraysSame(lastData, currentState.Temperature) && currentState.Temperature.Sum() != 0)
                 {
                     
@@ -43,7 +41,6 @@ namespace DataClient
                 }
                 
                 lastData = (double[]) currentState.Temperature.Clone();
-
             }
         }
 

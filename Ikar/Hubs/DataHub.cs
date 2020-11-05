@@ -33,12 +33,9 @@ namespace DataSever.Hubs
 
         public Task DataRecived(string json)
         {
-            var watch = System.Diagnostics.Stopwatch.StartNew();
             if (recordingService.IsRecording)
             {
                 recordingService.Record(JsonConvert.DeserializeObject<GridEyeDataModel>(json));
-                watch.Stop();
-                var x = watch.ElapsedMilliseconds;
             }
             Clients.Others.SendAsync("Message", json);
             return Clients.Caller.SendAsync("Message", "Recived Data");

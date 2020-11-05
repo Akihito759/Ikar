@@ -9,7 +9,7 @@ export class ThermalColorPallete {
             return this.ironPallete[Math.floor(index)];
         }
         else {
-            return temperature < this.minTemp ? this.ironPallete[1] : this.ironPallete[this.ironPallete.length - 1];
+            return temperature >= this.maxTemp ? this.ironPallete[1] : this.ironPallete[this.ironPallete.length - 1];
         }
     }
 }

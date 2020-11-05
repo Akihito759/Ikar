@@ -14,6 +14,7 @@ import { take, map } from 'rxjs/operators';
 export class DataFormComponent implements OnInit {
   isLoading = false;
   counterSource = new Subject<number>();
+  privateCounter = 0;
 
   counter$ = this.counterSource.asObservable();
   data = new FormGroup({
@@ -37,6 +38,7 @@ export class DataFormComponent implements OnInit {
     this.count();
     this.http.playAndSave(dto).subscribe(() => {
       this.isLoading = false;
+      this.privateCounter++;
     });
   }
 
@@ -44,6 +46,10 @@ export class DataFormComponent implements OnInit {
     let seconds = 10;
     timer(0, 1000).pipe(take(seconds)).subscribe(x =>
       this.counterSource.next(seconds--));
+  }
+
+  onReset(){
+    this.privateCounter = 0;
   }
 
   
