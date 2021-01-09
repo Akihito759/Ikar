@@ -11,4 +11,8 @@
     <PackageReference Include="Unity" Version="5.11.6" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Ikar.Shared\Ikar.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
